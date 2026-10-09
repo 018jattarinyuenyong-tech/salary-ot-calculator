@@ -1,3 +1,15 @@
-Salary & OT Calculator V6.0 — PWA
+Salary & OT Calculator V6.0
 
-PWA requires HTTPS (or localhost) to install. Upload these files to a web host, open index.html via HTTPS, then choose Install app/Add to Home screen in Chrome.
+อัปโหลดไฟล์ใน ZIP นี้ไปแทนไฟล์เดิมใน repository salary-ot-calculator โดยคงชื่อไฟล์และ URL เดิม
+
+แก้ไขใน V6.0:
+- วันหยุดกะเช้า: กรอกชั่วโมงจริงที่ผ่านไปทั้งหมด (รวมเวลาพัก); หักพัก 1 ชั่วโมงในช่วง 08:00-17:00 เท่านั้น
+- กะเช้า X1 = min(ชั่วโมงจริง, 9) - 1 (ไม่น้อยกว่า 0); X3 = max(0, ชั่วโมงจริง - 9)
+- วันหยุดกะดึกคงสูตรเดิม: หักพัก 0.5 ชั่วโมงจาก 8 ชั่วโมงแรก; ชั่วโมงเกิน 8 ชั่วโมงคิด X3 เต็ม
+- วันทำงานปกติไม่หักเวลาพักจาก OT ซ้ำ
+- ปรับชุดทดสอบในตัวให้ตรงกับกฎใหม่
+- ไม่ล้าง LocalStorage และคง URL เดิม
+
+URL: https://018jattarinyuenyong-tech.github.io/salary-ot-calculator/
+
+ไฟล์ใน ZIP: index.html, app.html, qr-code.png, README.txt
