@@ -4,7 +4,7 @@
 <!-- Salary & OT Calculator v6.0 Production: automatic Social Security wage-base calculation for low/high wages -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<title>Salary &amp; OT Calculator — V6.1 Holiday Break Fix</title>
+<title>Salary &amp; OT Calculator V6.1</title>
 <style>
  :root{--blue:#ff3ea5;--blue2:#fff0f8;--green:#19e6c1;--green2:#e9fffb;--ink:#24152f;--muted:#725d78;--bg:#100b1c;--line:#e5c9e1;--danger:#ff3b5c;--orange:#ffb21a;--purple:#8b5cf6;--cyan:#20d9ff;--slate:#4b3a55;--sun:#ff6b4a;--night:#160d25}
 *{box-sizing:border-box}html{width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%}body{margin:0;min-width:0;width:100%;overflow-x:hidden;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans Thai",sans-serif;background:radial-gradient(circle at 12% 8%,#ff3ea51f,transparent 28%),radial-gradient(circle at 88% 18%,#20d9ff18,transparent 25%),linear-gradient(145deg,#0c0814,#171024 52%,#0c1420);color:#fff;min-height:100vh}
@@ -96,7 +96,7 @@ button{touch-action:manipulation;}
 <body>
 <header>
 <div class="wrap">
-<h1>Salary &amp; OT Calculator</h1>
+<h1>Salary &amp; OT Calculator V6.1</h1>
 <p>เงินเดือน • OT • สวัสดิการ • ประกันสังคมอัตโนมัติ • ปฏิทิน • รายงาน • Mobile Fit</p>
 </div>
 </header>
@@ -592,7 +592,7 @@ async function exportSummaryCSV(){
 async function backupJSON(){
  try{
   syncMonth();syncInputs();state.meta=state.meta||{};state.meta.currentMonth=currentMonth;state.meta.savedAt=Date.now();state.meta.appVersion='6.1-HolidayBreakOnlyX1';
-  const payload={app:'Salary & OT Calculator',version:'6.0',exportedAt:new Date().toISOString(),data:state};
+  const payload={app:'Salary & OT Calculator',version:'6.1',exportedAt:new Date().toISOString(),data:state};
   const json=JSON.stringify(payload,null,2);await saveExportFile(json,'application/json;charset=utf-8',`salary-backup-${currentMonth}.json`,'backup');toast('สำรองข้อมูลเรียบร้อย');
  }catch(e){toast('สำรองข้อมูลไม่สำเร็จ')}
 }

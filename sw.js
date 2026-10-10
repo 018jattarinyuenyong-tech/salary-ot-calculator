@@ -1,8 +1,8 @@
 // Salary & OT Calculator — cache update strategy
 // เปลี่ยน CACHE_VERSION ทุกครั้งที่มีการอัปเดตระบบแคช
 const CACHE_PREFIX = 'salary-ot-';
-const CACHE_VERSION = 'salary-ot-v6-1-pwa-v3';
-const SHELL = ['./', './index.html', './app.html', './manifest.webmanifest'];
+const CACHE_VERSION = 'salary-ot-v6-1-pwa-v2';
+const SHELL = ['./', './index.html'];
 
 self.addEventListener('install', event => {
   event.waitUntil(
