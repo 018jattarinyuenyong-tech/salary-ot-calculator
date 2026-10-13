@@ -1,72 +1,64 @@
-// Salary & OT Calculator — cache update strategy
-// เปลี่ยน CACHE_VERSION ทุกครั้งที่มีการอัปเดตระบบแคช
+// Salary & OT Calculator V6.2 — automatic PWA cache updates
+// Bump CACHE_VERSION whenever publishing a new release.
 const CACHE_PREFIX = 'salary-ot-';
-const CACHE_VERSION = 'salary-ot-v6-1-pwa-v2';
-const SHELL = ['./', './index.html'];
+const CACHE_VERSION = 'salary-ot-v6-2-auto-update-v2';
+const APP_SHELL = ['./', './index.html', './app.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_VERSION)
-      .then(cache => cache.addAll(SHELL))
-      .then(() => self.skipWaiting())
-  );
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_VERSION);
+    // Cache the current app shell so the latest deployed version is available offline.
+    await cache.addAll(APP_SHELL);
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(
-        keys
-          .filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_VERSION)
-          .map(key => caches.delete(key))
-      ))
-      .then(() => self.clients.claim())
-  );
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_VERSION).map(key => caches.delete(key)));
+    await self.clients.claim();
+    const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    for (const client of clients) client.postMessage({ type: 'SALARY_OT_APP_UPDATED', version: CACHE_VERSION });
+  })());
+});
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET') return;
-
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  const isHtml = request.mode === 'navigate' ||
-    url.pathname.endsWith('.html') ||
-    url.pathname.endsWith('/');
-
+  const isHtml = request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('/');
   if (isHtml) {
-    // Network-first for HTML: try the latest published page on each visit.
-    event.respondWith(
-      fetch(request)
-        .then(response => {
-          if (response && response.ok) {
-            const copy = response.clone();
-            caches.open(CACHE_VERSION).then(cache => cache.put(request, copy));
-          }
-          return response;
-        })
-        .catch(async () => {
-          const cached = await caches.match(request);
-          if (cached) return cached;
-          const fallback = await caches.match('./index.html');
-          return fallback || Response.error();
-        })
-    );
+    // Network-first: use the newest published HTML whenever online, cached fallback offline.
+    event.respondWith((async () => {
+      try {
+        const response = await fetch(request, { cache: 'no-cache' });
+        if (response && response.ok) {
+          const cache = await caches.open(CACHE_VERSION);
+          await cache.put(request, response.clone());
+        }
+        return response;
+      } catch (err) {
+        return (await caches.match(request)) || (await caches.match('./index.html')) || Response.error();
+      }
+    })());
     return;
   }
 
-  // Other same-origin assets: cache-first, update cache on a miss.
-  event.respondWith(
-    caches.match(request).then(cached => {
-      if (cached) return cached;
-      return fetch(request).then(response => {
-        if (response && response.ok) {
-          const copy = response.clone();
-          caches.open(CACHE_VERSION).then(cache => cache.put(request, copy));
-        }
-        return response;
-      });
-    })
-  );
+  event.respondWith((async () => {
+    const cached = await caches.match(request);
+    if (cached) return cached;
+    const response = await fetch(request);
+    if (response && response.ok) {
+      const cache = await caches.open(CACHE_VERSION);
+      await cache.put(request, response.clone());
+    }
+    return response;
+  })());
 });

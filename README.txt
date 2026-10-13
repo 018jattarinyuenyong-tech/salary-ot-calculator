@@ -1,19 +1,18 @@
-Salary & OT Calculator V6.1 — GitHub Pages
+Salary & OT Calculator V6.2 — Automatic PWA cache update
 
-ไฟล์ในชุดนี้:
-- index.html: หน้าแรก ปุ่มเปิดโปรแกรม ปุ่มติดตั้ง และ QR Code
-- app.html: ตัวโปรแกรม V6.1
-- manifest.webmanifest: ข้อมูล PWA
-- sw.js: Service Worker กลยุทธ์ network-first สำหรับหน้า HTML
-- qr-code.png และ icon-192.png / icon-512.png: รูปภาพที่หน้าเว็บและ PWA ใช้
+Upload/overwrite ALL files in this ZIP in the root of the existing GitHub Pages repository:
+- app.html
+- index.html
+- manifest.webmanifest
+- sw.js
+- icon-192.png
+- icon-512.png
+- qr-code.png
 
-วิธีอัปเดต:
-1. สำรองไฟล์เดิมใน GitHub repository ก่อน
-2. อัปโหลดไฟล์ทั้งหมดใน ZIP นี้ไปไว้ที่ root ของ repository (ระดับเดียวกับ index.html เดิม)
-3. เลือก overwrite/แทนที่ไฟล์เดิม แล้ว Commit changes
-4. เปิดเว็บไซต์ใหม่และรีโหลดหนึ่งครั้ง หากยังเห็นหน้าเดิม ให้ปิดแท็บ/แอปที่ติดตั้งแล้วเปิดใหม่
+Automatic update behavior:
+- Service Worker checks for a new release when the landing page opens, and again when the page returns to the foreground.
+- New app files are downloaded and cached automatically. Old salary-ot-* caches are removed after the new worker activates.
+- The currently open page is not forcibly refreshed, to reduce the risk of losing unsaved form input. The latest version is used when the user next opens or refreshes the app.
+- Users need to open the site while online at least once to discover/download an update. No web app can force an offline device to fetch files.
 
-หมายเหตุ:
-- ห้ามลบข้อมูลเว็บไซต์/Local Storage หากต้องการเก็บข้อมูลเงินเดือนที่บันทึกไว้ในเครื่อง
-- Service Worker จะพยายามดึงหน้า HTML ล่าสุดจากเครือข่าย และใช้สำเนาแคชเมื่อออฟไลน์
-- ผู้ใช้บางรายอาจต้องปิดแล้วเปิด PWA ใหม่เพื่อให้ Service Worker รุ่นใหม่เริ่มทำงาน
+Keep the existing GitHub Pages repository path. Existing localStorage data key is unchanged. If an already-installed app does not update after deployment, open the site in the browser once while online, then close/reopen the installed app.

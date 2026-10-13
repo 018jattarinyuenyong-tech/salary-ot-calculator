@@ -4,7 +4,7 @@
 <!-- Salary & OT Calculator v6.0 Production: automatic Social Security wage-base calculation for low/high wages -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<title>Salary &amp; OT Calculator V6.1</title>
+<title>Salary &amp; OT Calculator V6.2</title>
 <style>
  :root{--blue:#ff3ea5;--blue2:#fff0f8;--green:#19e6c1;--green2:#e9fffb;--ink:#24152f;--muted:#725d78;--bg:#100b1c;--line:#e5c9e1;--danger:#ff3b5c;--orange:#ffb21a;--purple:#8b5cf6;--cyan:#20d9ff;--slate:#4b3a55;--sun:#ff6b4a;--night:#160d25}
 *{box-sizing:border-box}html{width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%}body{margin:0;min-width:0;width:100%;overflow-x:hidden;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans Thai",sans-serif;background:radial-gradient(circle at 12% 8%,#ff3ea51f,transparent 28%),radial-gradient(circle at 88% 18%,#20d9ff18,transparent 25%),linear-gradient(145deg,#0c0814,#171024 52%,#0c1420);color:#fff;min-height:100vh}
@@ -96,7 +96,7 @@ button{touch-action:manipulation;}
 <body>
 <header>
 <div class="wrap">
-<h1>Salary &amp; OT Calculator V6.1</h1>
+<h1>Salary &amp; OT Calculator V6.2</h1>
 <p>เงินเดือน • OT • สวัสดิการ • ประกันสังคมอัตโนมัติ • ปฏิทิน • รายงาน • Mobile Fit</p>
 </div>
 </header>
@@ -190,7 +190,7 @@ button{touch-action:manipulation;}
 </select></div>
 <div id="shiftField"><label>กะการทำงาน</label><select id="dayShift">
 <option value="morning">กะเช้า 08:00–17:00</option>
-<option value="night">กะกลางคืน 17:00–01:00</option>
+<option value="night">กะกลางคืน 17:00–01:30</option>
 </select></div>
 <div id="otField"><label>ชั่วโมง OT จริง</label><input id="dayOT" type="number" min="0" step="0.5" value="0"></div>
 <div id="holidayField" class="hidden"><label>ชั่วโมงวันหยุดตามเวลานาฬิกา (รวมเวลาพักและ OT; หักพักเฉพาะ X1)</label><input id="dayHolidayHours" type="number" min="0" step="0.5" value="0"></div>
@@ -285,18 +285,18 @@ function loadData(){
    if(!Number.isFinite(Number(state.settings.providentRate)))state.settings.providentRate=0;
    state.settings.ssRate=5;state.settings.ssCap=17500;
    state.benefits=state.benefits||{};state.months=state.months||{};
-   state.meta=Object.assign({currentMonth:'',shiftPreview:'morning',savedAt:0,appVersion:'5.4'},state.meta||{}); state.meta.appVersion='6.1-HolidayBreakOnlyX1';
+   state.meta=Object.assign({currentMonth:'',shiftPreview:'morning',savedAt:0,appVersion:'5.4'},state.meta||{}); state.meta.appVersion='6.2-HolidayBreakOnlyX1';
    benefitDefs.forEach(b=>{if(!state.benefits[b.id])state.benefits[b.id]={enabled:false,amount:b.default,mode:b.mode,ssEligible:b.ssEligible};else if(typeof state.benefits[b.id].ssEligible!=='boolean')state.benefits[b.id].ssEligible=b.ssEligible; if(b.id==='night')state.benefits[b.id].mode='daily';if(b.id==='education')state.benefits[b.id].mode='monthly'});
    const normalized=JSON.stringify(state);localStorage.setItem(KEY,normalized);if(window.Android&&Android.saveData)Android.saveData(normalized);
  }catch(e){defaultState()}
  currentMonth=state.meta.currentMonth||ymNow();document.getElementById('month').value=currentMonth;applyStateToInputs();renderAll();toast('โหลดข้อมูลทั้งหมดแล้ว • การตั้งค่าและประวัติเดือนยังคงอยู่');
 }
-function saveAll(showToast=true){syncMonth();syncInputs();state.meta.currentMonth=currentMonth;state.meta.savedAt=Date.now();state.meta.appVersion='6.1-HolidayBreakOnlyX1';const raw=JSON.stringify(state);localStorage.setItem(KEY,raw);if(window.Android&&Android.saveData)Android.saveData(raw);renderHistory();if(showToast)toast(`บันทึกข้อมูล ${monthLabel(currentMonth)} แล้ว • การตั้งค่าทั้งหมดถูกเก็บไว้`)}
+function saveAll(showToast=true){syncMonth();syncInputs();state.meta.currentMonth=currentMonth;state.meta.savedAt=Date.now();state.meta.appVersion='6.2-HolidayBreakOnlyX1';const raw=JSON.stringify(state);localStorage.setItem(KEY,raw);if(window.Android&&Android.saveData)Android.saveData(raw);renderHistory();if(showToast)toast(`บันทึกข้อมูล ${monthLabel(currentMonth)} แล้ว • การตั้งค่าทั้งหมดถูกเก็บไว้`)}
 function saveSettings(){saveAll(false);recalcRender();toast('บันทึกการตั้งค่าและข้อมูลทั้งหมดแล้ว')}
 function applyStateToInputs(){
  const s=state.settings||{};['salary','ssRate','ssCap','providentRate','otherDeduct'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=s[id]??0});const ot=document.getElementById('otRate');if(ot){ot.value=otHourlyRate().toFixed(2);ot.placeholder='คำนวณจากเงินเดือน + วุฒิการศึกษา'} const sb=document.getElementById('ssBaseDisplay');if(sb){const r=monthCalc();sb.value=(r.ssBase||0).toFixed(2)}
 }
-function autoSave(){try{syncMonth();syncInputs();state.meta.currentMonth=currentMonth;state.meta.savedAt=Date.now();state.meta.appVersion='6.1-HolidayBreakOnlyX1';const raw=JSON.stringify(state);localStorage.setItem(KEY,raw);if(window.Android&&Android.saveData)Android.saveData(raw);renderHistory()}catch(e){}}
+function autoSave(){try{syncMonth();syncInputs();state.meta.currentMonth=currentMonth;state.meta.savedAt=Date.now();state.meta.appVersion='6.2-HolidayBreakOnlyX1';const raw=JSON.stringify(state);localStorage.setItem(KEY,raw);if(window.Android&&Android.saveData)Android.saveData(raw);renderHistory()}catch(e){}}
 function syncInputs(){
  state.settings.salary=num('salary');state.settings.otRate=otHourlyRate();
  state.settings.ssRate=5;state.settings.ssCap=17500;state.settings.providentRate=num('providentRate');state.settings.otherDeduct=num('otherDeduct');
@@ -326,7 +326,7 @@ function renderBenefits(){
 function shiftInfo(){
  return document.querySelector('input[name=shiftPreview]:checked').value==='morning'
  ? '<b>กะเช้า:</b> 08:00–17:00 (พัก 12:00–13:00) • เริ่มนับ OT หลัง 17:00'
- : '<b>กะกลางคืน:</b> 17:00–01:00 (พัก 21:00–21:30) • เริ่มนับ OT หลัง 01:00 โดยไม่หักพักจาก OT • บันทึกตามวันที่เริ่มเข้ากะ';
+ : '<b>กะกลางคืน:</b> 17:00–01:30 (พัก 21:00–21:30) • เริ่มนับ OT หลัง 01:30 โดยไม่หักพักจาก OT • บันทึกตามวันที่เริ่มเข้ากะ';
 }
 function renderShiftInfo(){const chosen=state.meta?.shiftPreview||'morning';const radio=document.querySelector(`input[name=shiftPreview][value=\"${chosen}\"]`);if(radio)radio.checked=true;document.getElementById('shiftInfo').innerHTML=shiftInfo()}
 function saveShiftPreview(){const r=document.querySelector('input[name=shiftPreview]:checked');state.meta=state.meta||{};state.meta.shiftPreview=r?.value||'morning';autoSave();renderShiftInfo()}
@@ -347,11 +347,11 @@ function calcDay(d){
   const h=clampHours(d.holidayHours);
   // วันหยุดเท่านั้น: กรอกเวลานาฬิกาที่ผ่านไปทั้งหมดตั้งแต่เริ่มกะ รวมพักและ OT.
   // กะเช้า 08:00-17:00 = 9 ชั่วโมงตามนาฬิกา; หักพัก 1 ชม. จาก X1 เท่านั้น. หลัง 17:00 คือ X3 เต็ม.
-  // กะดึก 17:00-01:00 = 8 ชั่วโมงตามนาฬิกา; หักพัก 0.5 ชม. จาก X1 เท่านั้น. หลัง 01:00 คือ X3 เต็ม.
+  // กะดึก 17:00-01:30 = 8.5 ชั่วโมงตามนาฬิกา; หักพัก 0.5 ชม. จาก X1 เท่านั้น. หลัง 01:30 คือ X3 เต็ม.
   // วันทำงานปกติใช้ชั่วโมง OT ที่กรอกโดยตรง และไม่มีการหักเวลาพัก
   if(d.shift==='night'){
-   x1=Math.max(0,Math.min(8,h)-0.5);
-   x3=Math.max(0,h-8);
+   x1=Math.max(0,Math.min(8.5,h)-0.5);
+   x3=Math.max(0,h-8.5);
   }else{
    x1=Math.max(0,Math.min(9,h)-1);
    x3=Math.max(0,h-9);
@@ -591,7 +591,7 @@ async function exportSummaryCSV(){
 }
 async function backupJSON(){
  try{
-  syncMonth();syncInputs();state.meta=state.meta||{};state.meta.currentMonth=currentMonth;state.meta.savedAt=Date.now();state.meta.appVersion='6.1-HolidayBreakOnlyX1';
+  syncMonth();syncInputs();state.meta=state.meta||{};state.meta.currentMonth=currentMonth;state.meta.savedAt=Date.now();state.meta.appVersion='6.2-HolidayBreakOnlyX1';
   const payload={app:'Salary & OT Calculator',version:'6.1',exportedAt:new Date().toISOString(),data:state};
   const json=JSON.stringify(payload,null,2);await saveExportFile(json,'application/json;charset=utf-8',`salary-backup-${currentMonth}.json`,'backup');toast('สำรองข้อมูลเรียบร้อย');
  }catch(e){toast('สำรองข้อมูลไม่สำเร็จ')}
