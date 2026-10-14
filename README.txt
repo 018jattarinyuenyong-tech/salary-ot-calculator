@@ -1,18 +1,19 @@
-Salary & OT Calculator V6.2 — Automatic PWA cache update
+Salary & OT Calculator V6.3.0 — Performance & PWA Auto-Update Refinement
 
-Upload/overwrite ALL files in this ZIP in the root of the existing GitHub Pages repository:
-- app.html
-- index.html
-- manifest.webmanifest
-- sw.js
-- icon-192.png
-- icon-512.png
-- qr-code.png
+Package version: V6.3.0
+Base application: V6.2.9 Theme Refine
 
-Automatic update behavior:
-- Service Worker checks for a new release when the landing page opens, and again when the page returns to the foreground.
-- New app files are downloaded and cached automatically. Old salary-ot-* caches are removed after the new worker activates.
-- The currently open page is not forcibly refreshed, to reduce the risk of losing unsaved form input. The latest version is used when the user next opens or refreshes the app.
-- Users need to open the site while online at least once to discover/download an update. No web app can force an offline device to fetch files.
+V6.3.0 package changes:
+- Updated the package README to identify this release as V6.3.0.
+- Added reduced-motion and touch-device CSS refinements where supported.
+- Updated the PWA service worker cache version to salary-ot-v6-3-0.
+- The service worker removes older salary-ot-* caches and uses network-first navigation handling for HTML pages to help users receive updates.
 
-Keep the existing GitHub Pages repository path. Existing localStorage data key is unchanged. If an already-installed app does not update after deployment, open the site in the browser once while online, then close/reopen the installed app.
+Important verification note:
+This package has not been confirmed in a live browser/Android runtime. Please back up your current GitHub Pages files and test section navigation, theme switching, calendar, calculations, save/load, and PNG/PDF/print exports after deployment. The V6.3.0 label and service-worker changes alone do not prove that any pre-existing navigation or theme-switch issue is fixed.
+
+Deployment:
+1. Back up the current GitHub Pages repository files.
+2. Extract this ZIP and upload the files inside it to the same repository paths (do not upload only the ZIP file).
+3. Commit the changes and reload the site. If an older version remains cached, close and reopen the site or clear the site's cached data.
+4. Verify the app functions listed above before relying on it.
