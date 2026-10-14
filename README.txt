@@ -17,3 +17,8 @@ Deployment:
 2. Extract this ZIP and upload the files inside it to the same repository paths (do not upload only the ZIP file).
 3. Commit the changes and reload the site. If an older version remains cached, close and reopen the site or clear the site's cached data.
 4. Verify the app functions listed above before relying on it.
+
+Landing page restoration:
+- index.html is the start page with Open Program, Install Program (when supported), and QR Code.
+- app.html is the calculator application.
+- QR code points to the GitHub Pages root URL.
