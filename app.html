@@ -4,7 +4,7 @@
 <!-- Salary & OT Calculator v6.0 Production: automatic Social Security wage-base calculation for low/high wages -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<title>Salary &amp; OT Calculator V6.3.0</title>
+<title>Salary &amp; OT Calculator V6.3.1</title>
 <style>
  :root{--blue:#ff3ea5;--blue2:#fff0f8;--green:#19e6c1;--green2:#e9fffb;--ink:#24152f;--muted:#725d78;--bg:#100b1c;--line:#e5c9e1;--danger:#ff3b5c;--orange:#ffb21a;--purple:#8b5cf6;--cyan:#20d9ff;--slate:#4b3a55;--sun:#ff6b4a;--night:#160d25}
 *{box-sizing:border-box}html{width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%}body{margin:0;min-width:0;width:100%;overflow-x:hidden;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans Thai",sans-serif;background:radial-gradient(circle at 12% 8%,#ff3ea51f,transparent 28%),radial-gradient(circle at 88% 18%,#20d9ff18,transparent 25%),linear-gradient(145deg,#0c0814,#171024 52%,#0c1420);color:#fff;min-height:100vh}
@@ -605,7 +605,7 @@ html body[data-theme="dark"] .history-box{background:#0b1433;border:1px solid #2
 <body>
 <header>
 <div class="wrap">
-<h1>Salary &amp; OT Calculator V6.3.0</h1>
+<h1>Salary &amp; OT Calculator V6.3.1</h1>
 <div class="theme-control no-print"><button type="button" class="theme-toggle" id="themeMode" title="สลับโหมดสว่าง/มืด" aria-label="สลับโหมดสว่างและมืด">☀️</button></div>
 <p>เงินเดือน • OT • สวัสดิการ</p>
 </div>
@@ -614,7 +614,7 @@ html body[data-theme="dark"] .history-box{background:#0b1433;border:1px solid #2
 <nav class="modern-nav no-print" aria-label="เมนูหลัก">
   <div class="modern-nav-inner">
     <div class="brand-mark" aria-hidden="true">▦</div>
-    <div class="brand-copy"><strong>Salary &amp; OT</strong><small>Calculator <span>V6.2</span></small></div>
+    <div class="brand-copy"><strong>Salary &amp; OT</strong><small>Calculator <span>V6.3.1</span></small></div>
 
     <div class="nav-actions" role="group" aria-label="สลับหน้าต่างแสดงผล">
       <button type="button" class="nav-tab active" data-view="deductions"><span class="nav-icon" aria-hidden="true">♙</span><span class="nav-label">ข้อมูลพนักงาน</span></button>
@@ -719,6 +719,15 @@ html body[data-theme="dark"] .history-box{background:#0b1433;border:1px solid #2
 <div id="otField"><label>ชั่วโมง OT จริง</label><input id="dayOT" type="number" min="0" step="0.5" value="0"></div>
 <div id="holidayField" class="hidden"><label>ชั่วโมงวันหยุดตามเวลานาฬิกา (รวมเวลาพักและ OT; หักพักเฉพาะ X1)</label><input id="dayHolidayHours" type="number" min="0" step="0.5" value="0"></div>
 <div id="workedField"><label>ทำงานจริงในวันนี้?</label><select id="worked"><option value="1">ใช่</option><option value="0">ไม่ใช่</option></select></div>
+<div id="leaveField" class="hidden"><label>ประเภทการลา</label><select id="leaveType" onchange="updateLeavePayLabel()">
+<option value="sick_paid">ลาป่วย (รับค่าจ้างตามสิทธิ)</option>
+<option value="personal_paid">ลากิจจำเป็น (รับค่าจ้างตามสิทธิ)</option>
+<option value="annual_paid">ลาพักร้อน (รับค่าจ้างตามสิทธิ)</option>
+<option value="personal_unpaid">ลากิจไม่รับค่าจ้าง</option>
+<option value="unpaid">ลาโดยไม่รับค่าจ้าง</option>
+<option value="other_paid">ลาอื่น ๆ (รับค่าจ้าง)</option>
+<option value="other_unpaid">ลาอื่น ๆ (ไม่รับค่าจ้าง)</option>
+</select><div id="leavePayLabel" class="muted" style="margin-top:6px">ประเภทนี้บันทึกเป็นการลาที่ได้รับค่าจ้าง</div></div>
 </div>
 <div style="margin-top:11px"><label>หมายเหตุ</label><textarea id="dayNote"></textarea></div>
 <div id="dayError" style="color:var(--danger);font-size:13px;margin-top:7px"></div>
@@ -908,9 +917,13 @@ function monthCalc(){
    });
  });
  benefitDefs.forEach(b=>{const cfg=state.benefits[b.id];if(cfg?.enabled&&cfg.mode==='monthly'&&b.id!=='attendance')r.benefits[b.id]=cfg.amount});
- // เบี้ยขยัน: รับอัตโนมัติ 500 บาทสำหรับช่วงวันที่ 1–15 และอีก 500 บาทสำหรับช่วงวันที่ 16–สิ้นเดือน
- r.attendanceFirstHalf=state.benefits.attendance?.enabled?500:0;
- r.attendanceSecondHalf=state.benefits.attendance?.enabled?500:0;
+ // เบี้ยขยัน: หักสิทธิ 500 บาทแยก 2 รอบเมื่อมีการลาทุกประเภทในรอบนั้น
+ const hasLeaveFirstHalf=Object.entries(days).some(([date,d])=>d.type==='off'&&Number(date.slice(-2))>=1&&Number(date.slice(-2))<=15);
+ const hasLeaveSecondHalf=Object.entries(days).some(([date,d])=>d.type==='off'&&Number(date.slice(-2))>=16);
+ r.attendanceFirstHalf=state.benefits.attendance?.enabled&&!hasLeaveFirstHalf?500:0;
+ r.attendanceSecondHalf=state.benefits.attendance?.enabled&&!hasLeaveSecondHalf?500:0;
+ r.attendanceLeaveFirstHalf=hasLeaveFirstHalf;
+ r.attendanceLeaveSecondHalf=hasLeaveSecondHalf;
  r.benefits.attendance=r.attendanceFirstHalf+r.attendanceSecondHalf;
  benefitDefs.forEach(b=>{const cfg=state.benefits[b.id];if(cfg?.enabled&&cfg.ssEligible)r.ssWage+=r.benefits[b.id]});
  r.weekendBonus=r.weekendWorked>=4?1000:r.weekendWorked>=3?500:0;
@@ -939,7 +952,7 @@ function renderCalendar(){
    if(d){if(d.type==='normal_ot')cls+=' work-normal';if(d.type==='no_ot')cls+=' work-no';if(d.type==='holiday')cls+=' work-holiday';if(d.type==='off')cls+=' work-off';}
    if(ds===todayYMD())cls+=' today';
    s+=`<div class="${cls}" onclick="openDay('${ds}')"><span class="num">${day}</span>`;
-   if(d){if(d.type==='normal_ot')s+='<span class="tag ot">วันทำงานปกติ + OT</span>';if(d.type==='no_ot')s+='<span class="tag no">NO OT</span>';if(d.type==='holiday')s+='<span class="tag hol">วันหยุด OT X1, X3</span>';if(d.type==='off')s+='<span class="tag off">วันหยุด ไม่ได้มาทำงาน</span>';
+   if(d){if(d.type==='normal_ot')s+='<span class="tag ot">วันทำงานปกติ + OT</span>';if(d.type==='no_ot')s+='<span class="tag no">NO OT</span>';if(d.type==='holiday')s+='<span class="tag hol">วันหยุด OT X1, X3</span>';if(d.type==='off'){const leaveNames={sick_paid:'ลาป่วย',personal_paid:'ลากิจจำเป็น',annual_paid:'ลาพักร้อน',personal_unpaid:'ลากิจไม่รับค่าจ้าง',unpaid:'ลาไม่รับค่าจ้าง',other_paid:'ลาอื่น ๆ (รับค่าจ้าง)',other_unpaid:'ลาอื่น ๆ (ไม่รับค่าจ้าง)'};s+='<span class="tag off">วันหยุด ไม่ได้มาทำงาน</span>';if(d.leaveType)s+=`<small>${leaveNames[d.leaveType]||'ลาอื่น ๆ'}</small>`;}
    const c=calcDay(d);if(c.ot>0)s+=`<small>OT ${c.ot} ชม.</small>`;if(c.x1+c.x3>0)s+=`<small>X1 ${c.x1} / X3 ${c.x3} ชม.</small>`;if(c.otFoodEligible&&state.benefits.otFood?.enabled)s+='<span class="tag food">อาหาร OT ✓</span>';else if(d.type!=='no_ot')s+='<small>อาหาร OT –</small>';if(d.note)s+='<small title="มีหมายเหตุ">📝 มีหมายเหตุ</small>'}
    s+='</div>'}
  s+='</div>';el.innerHTML=s;renderHistory();
@@ -952,6 +965,12 @@ function renderHistory(){
 }
 function jumpHistory(ym){if(!ym)return;currentMonth=ym;document.getElementById('month').value=ym;renderAll();toast(`เปิดข้อมูล ${monthLabel(ym)} แล้ว`)}
 
+function updateLeavePayLabel(){
+ const v=document.getElementById('leaveType')?.value||'sick_paid';
+ const paid=!v.endsWith('_unpaid')&&v!=='unpaid';
+ const el=document.getElementById('leavePayLabel');
+ if(el)el.textContent=paid?'ประเภทนี้บันทึกเป็นการลาที่ได้รับค่าจ้าง':'ประเภทนี้บันทึกเป็นการลาที่ไม่ได้รับค่าจ้าง';
+}
 function updateDayFields(){
  const t=document.getElementById('dayType').value;
  const isOff=t==='off';
@@ -959,12 +978,14 @@ function updateDayFields(){
  document.getElementById('holidayField').classList.toggle('hidden',t!=='holiday');
  document.getElementById('shiftField').classList.toggle('hidden',isOff);
  document.getElementById('workedField').classList.toggle('hidden',isOff);
+ document.getElementById('leaveField').classList.toggle('hidden',!isOff);
  if(isOff) document.getElementById('worked').value='0';
+ updateLeavePayLabel();
 }
 function openDay(date){
  syncMonth();editingDate=date||null;document.getElementById('modal').classList.add('open');document.getElementById('modalTitle').textContent=date?'แก้ไขวันทำงาน':'เพิ่มวันทำงาน';
  const d=date?getDays()[date]:{type:'normal_ot',shift:'morning',ot:0,holidayHours:0,worked:'1',note:''};
- document.getElementById('dayDate').value=date||currentMonth+'-01';document.getElementById('dayType').value=d.type;document.getElementById('dayShift').value=d.shift||'morning';document.getElementById('dayOT').value=d.ot||0;document.getElementById('dayHolidayHours').value=d.holidayHours||0;document.getElementById('worked').value=d.worked??'1';document.getElementById('dayNote').value=d.note||'';document.getElementById('dayError').textContent='';updateDayFields();
+ document.getElementById('dayDate').value=date||currentMonth+'-01';document.getElementById('dayType').value=d.type;document.getElementById('dayShift').value=d.shift||'morning';document.getElementById('dayOT').value=d.ot||0;document.getElementById('dayHolidayHours').value=d.holidayHours||0;document.getElementById('worked').value=d.worked??'1';document.getElementById('dayNote').value=d.note||'';document.getElementById('leaveType').value=d.leaveType||'sick_paid';document.getElementById('dayError').textContent='';updateDayFields();
 }
 function closeModal(){document.getElementById('modal').classList.remove('open')}
 function saveDay(){
@@ -975,7 +996,8 @@ function saveDay(){
  if(type==='normal_ot'&&ot<0||type==='holiday'&&hh<0){document.getElementById('dayError').textContent='ชั่วโมงต้องไม่ติดลบ';return}
  if(type==='normal_ot'&&ot>24){document.getElementById('dayError').textContent='ชั่วโมง OT ต้องไม่เกิน 24 ชั่วโมง/วัน';return}
  if(type==='holiday'&&hh>24){document.getElementById('dayError').textContent='ชั่วโมงทำงานวันหยุดต้องไม่เกิน 24 ชั่วโมง/วัน';return}
- state.months[currentMonth].days[date]={type,shift:type==='off'?'':shift,ot:type==='normal_ot'?ot:0,holidayHours:type==='holiday'?hh:0,worked:type==='off'?'0':document.getElementById('worked').value,note:document.getElementById('dayNote').value};
+ const leaveType=type==='off'?document.getElementById('leaveType').value:'';
+ state.months[currentMonth].days[date]={type,shift:type==='off'?'':shift,ot:type==='normal_ot'?ot:0,holidayHours:type==='holiday'?hh:0,worked:type==='off'?'0':document.getElementById('worked').value,leaveType,leavePaid:type==='off'?(!leaveType.endsWith('_unpaid')&&leaveType!=='unpaid'):null,note:document.getElementById('dayNote').value};
  saveAll();closeModal();renderAll();
 }
 function deleteDay(){if(!editingDate){closeModal();return}if(confirm('ลบรายการของวันนี้หรือไม่?')){delete state.months[currentMonth].days[editingDate];saveAll();closeModal();renderAll()}}
@@ -1072,8 +1094,8 @@ async function saveCsvFile(csv,name,type='csv'){
 }
 
 async function exportCSV(){
- const rows=[['วันที่','ประเภท','กะ','OT ชม.','X1 ชม.','X3 ชม.','อาหาร OT','ทำงานจริง','หมายเหตุ']];
- Object.entries(getDays()).sort(([a],[b])=>a.localeCompare(b)).forEach(([date,d])=>{const c=calcDay(d);const typeLabel=d.type==='normal_ot'?'วันทำงานปกติ + OT':d.type==='no_ot'?'วันทำงานปกติ ไม่ทำ OT (NO OT)':d.type==='holiday'?'วันหยุด OT X1, X3':d.type==='off'?'วันหยุด ไม่ได้มาทำงาน':d.type;rows.push([date,typeLabel,d.type==='off'?'':(d.shift==='night'?'กะกลางคืน':'กะเช้า'),c.ot,c.x1,c.x3,c.otFoodEligible?'ได้รับ':'ไม่ได้รับ',d.type==='off'?'ไม่':(d.worked==='1'?'ใช่':'ไม่'),d.note||''])});
+ const rows=[['วันที่','ประเภท','ประเภทการลา','สถานะค่าจ้าง','กะ','OT ชม.','X1 ชม.','X3 ชม.','อาหาร OT','ทำงานจริง','หมายเหตุ']];
+ Object.entries(getDays()).sort(([a],[b])=>a.localeCompare(b)).forEach(([date,d])=>{const c=calcDay(d);const typeLabel=d.type==='normal_ot'?'วันทำงานปกติ + OT':d.type==='no_ot'?'วันทำงานปกติ ไม่ทำ OT (NO OT)':d.type==='holiday'?'วันหยุด OT X1, X3':d.type==='off'?'วันหยุด ไม่ได้มาทำงาน':d.type;rows.push([date,typeLabel,d.leaveType||'',d.type==='off'?(d.leavePaid===false||String(d.leaveType||'').endsWith('_unpaid')||d.leaveType==='unpaid'?'ไม่รับค่าจ้าง':'รับค่าจ้าง'):'',d.type==='off'?'':(d.shift==='night'?'กะกลางคืน':'กะเช้า'),c.ot,c.x1,c.x3,c.otFoodEligible?'ได้รับ':'ไม่ได้รับ',d.type==='off'?'ไม่':(d.worked==='1'?'ใช่':'ไม่'),d.note||''])});
  const cr=monthCalc();
  rows.push([]);
  rows.push(['รวมชั่วโมง OT ของเดือน','','',cr.otTotalH,cr.x1H,cr.x3H,'','','']);

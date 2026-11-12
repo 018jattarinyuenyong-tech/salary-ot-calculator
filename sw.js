@@ -1,6 +1,6 @@
-// Salary & OT Calculator V6.3.0 — performance and update handling
+// Salary & OT Calculator V6.3.1 — performance and update handling
 const CACHE_PREFIX = 'salary-ot-';
-const CACHE_NAME = 'salary-ot-v6-3-0';
+const CACHE_NAME = 'salary-ot-v6-3-1';
 const APP_SHELL = ['./', './index.html', './app.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', event => {
@@ -17,7 +17,7 @@ self.addEventListener('activate', event => {
     await Promise.all(keys.filter(k => k.startsWith(CACHE_PREFIX) && k !== CACHE_NAME).map(k => caches.delete(k)));
     await self.clients.claim();
     const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
-    for (const client of clients) client.postMessage({ type: 'SALARY_OT_UPDATED', version: 'V6.3.0' });
+    for (const client of clients) client.postMessage({ type: 'SALARY_OT_UPDATED', version: 'V6.3.1' });
   })());
 });
 
