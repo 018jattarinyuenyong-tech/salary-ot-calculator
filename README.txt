@@ -1,22 +1,32 @@
-Salary & OT Calculator V6.3.1 — Leave & Attendance Update
+Salary & OT Calculator V6.3.1 — Landing / Install / QR + Leave Type Fix
 
 Package version: V6.3.1
-Base application: V6.3.0
 
-V6.3.1 changes:
-- Added leave subtype selection to the calendar leave workflow in app.html.
-- Any leave type disqualifies the attendance bonus for its half-month period.
-- Attendance bonus is calculated independently: 500 THB for days 1–15 and 500 THB for days 16 through month-end when no leave occurs in that period.
-- Calendar shows the selected leave type; calendar CSV includes leave type and pay status.
-- Updated the visible version label in both index.html and app.html to V6.3.1.
-- Updated the PWA manifest name and short name to V6.3.1.
-- Updated the service-worker cache name and update message to V6.3.1 so browsers can recognize this release.
+Entry flow (required):
+1. Open the GitHub Pages URL or scan qr-code.png.
+2. index.html is the landing page and shows Open App, Install App, and QR Code.
+3. The user must press “เปิดโปรแกรม” to enter app.html.
+4. PWA installation start_url is index.html, so launching the installed app also opens the landing page first.
+
+Included files:
+- index.html: landing page with Open App, Install App, QR Code
+- app.html: Salary & OT Calculator application
+- manifest.webmanifest: PWA start_url points to index.html
+- sw.js: V6.3.1 cache/update handling
+- qr-code.png: QR code points to the GitHub Pages landing URL
+- icon-192.png / icon-512.png: app icons
 
 Deployment:
 1. Back up the current GitHub Pages files.
-2. Extract this ZIP and upload the files inside it to the same repository paths (do not upload only the ZIP file).
-3. Commit the changes, then reload the website. If an old version remains visible, close and reopen the browser tab or clear the site's cached data.
-4. Test the calendar leave flow, attendance bonus, section navigation, theme switching, save/load, and report exports.
+2. Extract this ZIP and upload all files inside it to the same repository paths, replacing the old files. Do not upload only the ZIP.
+3. Commit/push the changes.
+4. Open the GitHub Pages URL: it should show the landing page first. Press “เปิดโปรแกรม” to enter the calculator.
+5. If the installed PWA opens an old page, close it and clear/reload site data; the manifest start_url in this package is ./index.html.
 
-Note:
-The version labels and PWA cache identifiers have been aligned to V6.3.1. The leave and attendance changes are present in app.html. This packaging step does not constitute a new live Android/browser runtime test.
+Verification performed for this package:
+- ZIP contains index.html, app.html, manifest, service worker, both icons, QR image, and this README.
+- QR image decodes to the GitHub Pages landing URL.
+- PWA manifest start_url is ./index.html (not app.html).
+- index.html Open App button points to ./app.html.
+
+Not claimed: a full live browser/Android runtime test has not been performed in this packaging step.
