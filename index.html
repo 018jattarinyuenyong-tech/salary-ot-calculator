@@ -540,6 +540,67 @@ body[data-theme="dark"] button:not(.theme-toggle):not(.nav-tab),body[data-theme=
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="./icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="./icon-192.png">
+<style id="theme-refine-v629">
+/* ===== V6.2.9 Theme Refine — visual only (light = reference 1, dark = reference 2) ===== */
+@media screen{
+/* --- layout fixes shared by both themes --- */
+body .monthnav{display:flex!important;flex-wrap:wrap!important;gap:8px!important;align-items:center!important;width:100%!important}
+body .monthnav>button:first-child{order:1!important;flex:0 0 46px!important}
+body .monthnav>input[type="month"]{order:2!important;flex:1 1 0!important;min-width:140px!important;width:auto!important}
+body .monthnav>button:last-child{order:3!important;flex:0 0 46px!important}
+body .monthnav>.history-box{order:4!important;flex:1 1 100%!important;width:100%!important;margin:0!important}
+body input[type="radio"],body input[type="checkbox"]{width:auto!important;min-width:0!important;accent-color:var(--accent,#1f6fe5)}
+body label:has(>input[name="shiftPreview"]){display:flex!important;align-items:center;gap:10px;padding:12px 14px;margin:0 0 8px!important;border-radius:14px;border:1.5px solid var(--sh-bd);background:var(--sh-bg);color:var(--sh-tx);font-size:15px;cursor:pointer}
+body label:has(>input[name="shiftPreview"]):last-child{margin-bottom:0!important}
+body label:has(>input[name="shiftPreview"]:checked){border-color:var(--sh-on-bd);background:var(--sh-on-bg);box-shadow:var(--sh-on-sh)}
+body label:has(>input[name="shiftPreview"][value="morning"])::after{content:"☀️";margin-left:auto}
+body label:has(>input[name="shiftPreview"][value="night"])::after{content:"🌙";margin-left:auto}
+body header h1{display:flex!important;align-items:center;gap:10px;font-size:clamp(17px,4.7vw,30px)!important;line-height:1.2}
+body header h1::before{content:"";flex:0 0 40px;width:40px;height:40px;border-radius:12px;background:var(--hd-icon) center/contain no-repeat}
+.net-final{padding:20px 22px!important;border-radius:20px!important}
+.net-final .label{font-size:14px;font-weight:800;letter-spacing:.2px}
+.net-final .value{font-size:clamp(32px,9vw,46px)!important;font-weight:950!important;letter-spacing:.3px}
+
+/* ---------- LIGHT (ตามรูปที่ 1) ---------- */
+html body[data-theme="light"]{--accent:#1f6fe5;--sh-bd:#d6e4f6;--sh-bg:#f7fbff;--sh-tx:#12315f;--sh-on-bd:#1f6fe5;--sh-on-bg:#e8f2ff;--sh-on-sh:0 4px 14px #1f6fe526;
+ --hd-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%231f6fe5'/%3E%3Cstop offset='1' stop-color='%2312b8a6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='48' height='48' rx='12' fill='url(%23g)'/%3E%3Crect x='10' y='13' width='22' height='21' rx='4' fill='none' stroke='white' stroke-width='2.6'/%3E%3Cpath d='M10 20h22M16 10v6M26 10v6' stroke='white' stroke-width='2.6' stroke-linecap='round'/%3E%3Ccircle cx='33' cy='33' r='7' fill='%231f6fe5' stroke='white' stroke-width='2.4'/%3E%3Cpath d='M33 29.6V33l2.4 1.6' stroke='white' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")}
+html body[data-theme="light"] header{background:linear-gradient(180deg,#ffffff,#eef6ff)!important;border-bottom:1px solid #d9e7f8;box-shadow:0 6px 22px #1f6fe51a}
+html body[data-theme="light"] header h1{color:#0f2a5c!important}
+html body[data-theme="light"] header p{color:#4d6c92!important}
+html body[data-theme="light"] .card{background:#fff;border:1px solid #dbe8f7;border-radius:20px;box-shadow:0 8px 26px #1f6fe514}
+html body[data-theme="light"] .card h2{color:#12315f}
+html body[data-theme="light"] button:not(.theme-toggle):not(.nav-tab){background:linear-gradient(135deg,#1769e0,#13a8d8)!important;color:#fff!important;border:0;box-shadow:0 4px 14px #1f6fe540}
+html body[data-theme="light"] button.green:not(.theme-toggle):not(.nav-tab){background:linear-gradient(135deg,#0b9a86,#18c99b)!important;box-shadow:0 4px 14px #0b9a8640}
+html body[data-theme="light"] button.light:not(.theme-toggle):not(.nav-tab),html body[data-theme="light"] .monthnav button.light:not(.theme-toggle):not(.nav-tab){background:#fff!important;color:#1f5fc4!important;border:1.5px solid #cfe0f5!important;box-shadow:none}
+html body[data-theme="light"] button.secondary:not(.theme-toggle):not(.nav-tab),html body[data-theme="light"] button.close:not(.theme-toggle):not(.nav-tab){background:#eaf0f8!important;color:#3b5379!important;border:1px solid #d3deee!important;box-shadow:none}
+html body[data-theme="light"] button.danger:not(.theme-toggle):not(.nav-tab){background:#fff!important;color:#e0314f!important;border:1.5px solid #ff8fa3!important;box-shadow:none}
+html body[data-theme="light"] .net-final{background:linear-gradient(135deg,#1d5fd8,#1292d6 55%,#12b8a6)!important;color:#fff;box-shadow:0 12px 30px #1f6fe540}
+html body[data-theme="light"] .stat{background:linear-gradient(135deg,#eaf3ff,#f3f8ff);border:1px solid #cfe2fb}
+html body[data-theme="light"] .stat.green{background:linear-gradient(135deg,#e6f9f4,#f0fcf9);border-color:#b7ecdd}
+html body[data-theme="light"] .modalbox{background:#fff;border:1px solid #dbe8f7;border-radius:20px}
+html body[data-theme="light"] .history-box{background:#f1f7ff;border:1px solid #dbe8f7;border-radius:14px}
+
+/* ---------- DARK (ตามรูปที่ 2) ---------- */
+html body[data-theme="dark"]{--accent:#20d9ff;--sh-bd:#24407a;--sh-bg:#0a1230;--sh-tx:#e6efff;--sh-on-bd:#20d9ff;--sh-on-bg:linear-gradient(135deg,#0b2a5e,#0a1f4a);--sh-on-sh:0 0 16px #20d9ff40;
+ --hd-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2320d9ff'/%3E%3Cstop offset='1' stop-color='%23ff3ea5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='1.5' y='1.5' width='45' height='45' rx='12' fill='%230b1544' stroke='url(%23g)' stroke-width='3'/%3E%3Crect x='10' y='13' width='22' height='21' rx='4' fill='none' stroke='%2320d9ff' stroke-width='2.6'/%3E%3Cpath d='M10 20h22M16 10v6M26 10v6' stroke='%2320d9ff' stroke-width='2.6' stroke-linecap='round'/%3E%3Ccircle cx='33' cy='33' r='7' fill='%230b1544' stroke='%23ff3ea5' stroke-width='2.4'/%3E%3Cpath d='M33 29.6V33l2.4 1.6' stroke='%23ff3ea5' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")}
+html body[data-theme="dark"] header{background:linear-gradient(135deg,#0c1440,#111a52 60%,#1a1060)!important;border-bottom:1px solid #20d9ff44;box-shadow:0 6px 28px #20d9ff1f,0 6px 24px #0008}
+html body[data-theme="dark"] header h1{color:#fff!important}
+html body[data-theme="dark"] header p{color:#9fc1ff!important}
+html body[data-theme="dark"] .card{border-radius:20px}
+html body[data-theme="dark"] button:not(.theme-toggle):not(.nav-tab){background:linear-gradient(90deg,#ff3ea5,#b44cff 55%,#20d9ff)!important;color:#fff!important;border:0;box-shadow:0 4px 16px #ff3ea540}
+html body[data-theme="dark"] button.green:not(.theme-toggle):not(.nav-tab){background:linear-gradient(90deg,#0fb8a0,#20d9ff)!important;color:#04202a!important;box-shadow:0 4px 16px #20d9ff40}
+html body[data-theme="dark"] button.light:not(.theme-toggle):not(.nav-tab),html body[data-theme="dark"] .monthnav button.light:not(.theme-toggle):not(.nav-tab){background:#0f1a45!important;color:#8fe8ff!important;border:1.5px solid #2b4a9a!important;box-shadow:none}
+html body[data-theme="dark"] button.secondary:not(.theme-toggle):not(.nav-tab),html body[data-theme="dark"] button.close:not(.theme-toggle):not(.nav-tab){background:#1a2552!important;color:#dbe6ff!important;border:1px solid #2b3f7a!important;box-shadow:none}
+html body[data-theme="dark"] button.danger:not(.theme-toggle):not(.nav-tab){background:transparent!important;color:#ff6b8e!important;border:1.5px solid #ff3b5c!important;box-shadow:0 0 14px #ff3b5c30}
+html body[data-theme="dark"] .net-final{background:linear-gradient(135deg,#0b3b8f,#0c6bd0 55%,#10b6d6)!important;color:#fff;border:1px solid #20d9ff88;box-shadow:0 0 28px #20d9ff33,0 12px 30px #0008}
+/* modal text was dark-on-dark: make it readable */
+html body[data-theme="dark"] .modalbox{background:linear-gradient(160deg,#0d1638,#0a1230)!important;color:#eaf2ff!important;border:1px solid #20d9ff66!important;border-radius:20px;box-shadow:0 0 30px #20d9ff22,0 20px 60px #000a}
+html body[data-theme="dark"] .modalbox h2,html body[data-theme="dark"] .modalbox h3,html body[data-theme="dark"] .modalbox label,html body[data-theme="dark"] .modalbox .muted{color:#eaf2ff!important}
+html body[data-theme="dark"] .modalbox label{color:#c4d4f5!important}
+html body[data-theme="dark"] .modalbox input,html body[data-theme="dark"] .modalbox select,html body[data-theme="dark"] .modalbox textarea{background:#0a1230!important;color:#fff!important;border:1px solid #24407a!important}
+html body[data-theme="dark"] .history-box{background:#0b1433;border:1px solid #24407a;border-radius:14px}
+}
+</style>
 </head>
 <body>
 <header>
@@ -658,6 +719,15 @@ body[data-theme="dark"] button:not(.theme-toggle):not(.nav-tab),body[data-theme=
 <div id="otField"><label>ชั่วโมง OT จริง</label><input id="dayOT" type="number" min="0" step="0.5" value="0"></div>
 <div id="holidayField" class="hidden"><label>ชั่วโมงวันหยุดตามเวลานาฬิกา (รวมเวลาพักและ OT; หักพักเฉพาะ X1)</label><input id="dayHolidayHours" type="number" min="0" step="0.5" value="0"></div>
 <div id="workedField"><label>ทำงานจริงในวันนี้?</label><select id="worked"><option value="1">ใช่</option><option value="0">ไม่ใช่</option></select></div>
+<div id="leaveField" class="hidden"><label>ประเภทการลา</label><select id="leaveType" onchange="updateLeavePayLabel()">
+<option value="sick_paid">ลาป่วย (รับค่าจ้างตามสิทธิ)</option>
+<option value="personal_paid">ลากิจจำเป็น (รับค่าจ้างตามสิทธิ)</option>
+<option value="annual_paid">ลาพักร้อน (รับค่าจ้างตามสิทธิ)</option>
+<option value="personal_unpaid">ลากิจไม่รับค่าจ้าง</option>
+<option value="unpaid">ลาโดยไม่รับค่าจ้าง</option>
+<option value="other_paid">ลาอื่น ๆ (รับค่าจ้าง)</option>
+<option value="other_unpaid">ลาอื่น ๆ (ไม่รับค่าจ้าง)</option>
+</select><div id="leavePayLabel" class="muted" style="margin-top:6px">ประเภทนี้บันทึกเป็นการลาที่ได้รับค่าจ้าง</div></div>
 </div>
 <div style="margin-top:11px"><label>หมายเหตุ</label><textarea id="dayNote"></textarea></div>
 <div id="dayError" style="color:var(--danger);font-size:13px;margin-top:7px"></div>
@@ -847,9 +917,13 @@ function monthCalc(){
    });
  });
  benefitDefs.forEach(b=>{const cfg=state.benefits[b.id];if(cfg?.enabled&&cfg.mode==='monthly'&&b.id!=='attendance')r.benefits[b.id]=cfg.amount});
- // เบี้ยขยัน: รับอัตโนมัติ 500 บาทสำหรับช่วงวันที่ 1–15 และอีก 500 บาทสำหรับช่วงวันที่ 16–สิ้นเดือน
- r.attendanceFirstHalf=state.benefits.attendance?.enabled?500:0;
- r.attendanceSecondHalf=state.benefits.attendance?.enabled?500:0;
+ // เบี้ยขยัน: หักสิทธิ 500 บาทแยก 2 รอบเมื่อมีการลาทุกประเภทในรอบนั้น
+ const hasLeaveFirstHalf=Object.entries(days).some(([date,d])=>d.type==='off'&&Number(date.slice(-2))>=1&&Number(date.slice(-2))<=15);
+ const hasLeaveSecondHalf=Object.entries(days).some(([date,d])=>d.type==='off'&&Number(date.slice(-2))>=16);
+ r.attendanceFirstHalf=state.benefits.attendance?.enabled&&!hasLeaveFirstHalf?500:0;
+ r.attendanceSecondHalf=state.benefits.attendance?.enabled&&!hasLeaveSecondHalf?500:0;
+ r.attendanceLeaveFirstHalf=hasLeaveFirstHalf;
+ r.attendanceLeaveSecondHalf=hasLeaveSecondHalf;
  r.benefits.attendance=r.attendanceFirstHalf+r.attendanceSecondHalf;
  benefitDefs.forEach(b=>{const cfg=state.benefits[b.id];if(cfg?.enabled&&cfg.ssEligible)r.ssWage+=r.benefits[b.id]});
  r.weekendBonus=r.weekendWorked>=4?1000:r.weekendWorked>=3?500:0;
@@ -878,7 +952,7 @@ function renderCalendar(){
    if(d){if(d.type==='normal_ot')cls+=' work-normal';if(d.type==='no_ot')cls+=' work-no';if(d.type==='holiday')cls+=' work-holiday';if(d.type==='off')cls+=' work-off';}
    if(ds===todayYMD())cls+=' today';
    s+=`<div class="${cls}" onclick="openDay('${ds}')"><span class="num">${day}</span>`;
-   if(d){if(d.type==='normal_ot')s+='<span class="tag ot">วันทำงานปกติ + OT</span>';if(d.type==='no_ot')s+='<span class="tag no">NO OT</span>';if(d.type==='holiday')s+='<span class="tag hol">วันหยุด OT X1, X3</span>';if(d.type==='off')s+='<span class="tag off">วันหยุด ไม่ได้มาทำงาน</span>';
+   if(d){if(d.type==='normal_ot')s+='<span class="tag ot">วันทำงานปกติ + OT</span>';if(d.type==='no_ot')s+='<span class="tag no">NO OT</span>';if(d.type==='holiday')s+='<span class="tag hol">วันหยุด OT X1, X3</span>';if(d.type==='off'){const leaveNames={sick_paid:'ลาป่วย',personal_paid:'ลากิจจำเป็น',annual_paid:'ลาพักร้อน',personal_unpaid:'ลากิจไม่รับค่าจ้าง',unpaid:'ลาไม่รับค่าจ้าง',other_paid:'ลาอื่น ๆ (รับค่าจ้าง)',other_unpaid:'ลาอื่น ๆ (ไม่รับค่าจ้าง)'};s+='<span class="tag off">วันหยุด ไม่ได้มาทำงาน</span>';if(d.leaveType)s+=`<small>${leaveNames[d.leaveType]||'ลาอื่น ๆ'}</small>`;}
    const c=calcDay(d);if(c.ot>0)s+=`<small>OT ${c.ot} ชม.</small>`;if(c.x1+c.x3>0)s+=`<small>X1 ${c.x1} / X3 ${c.x3} ชม.</small>`;if(c.otFoodEligible&&state.benefits.otFood?.enabled)s+='<span class="tag food">อาหาร OT ✓</span>';else if(d.type!=='no_ot')s+='<small>อาหาร OT –</small>';if(d.note)s+='<small title="มีหมายเหตุ">📝 มีหมายเหตุ</small>'}
    s+='</div>'}
  s+='</div>';el.innerHTML=s;renderHistory();
@@ -891,6 +965,12 @@ function renderHistory(){
 }
 function jumpHistory(ym){if(!ym)return;currentMonth=ym;document.getElementById('month').value=ym;renderAll();toast(`เปิดข้อมูล ${monthLabel(ym)} แล้ว`)}
 
+function updateLeavePayLabel(){
+ const v=document.getElementById('leaveType')?.value||'sick_paid';
+ const paid=!v.endsWith('_unpaid')&&v!=='unpaid';
+ const el=document.getElementById('leavePayLabel');
+ if(el)el.textContent=paid?'ประเภทนี้บันทึกเป็นการลาที่ได้รับค่าจ้าง':'ประเภทนี้บันทึกเป็นการลาที่ไม่ได้รับค่าจ้าง';
+}
 function updateDayFields(){
  const t=document.getElementById('dayType').value;
  const isOff=t==='off';
@@ -898,12 +978,14 @@ function updateDayFields(){
  document.getElementById('holidayField').classList.toggle('hidden',t!=='holiday');
  document.getElementById('shiftField').classList.toggle('hidden',isOff);
  document.getElementById('workedField').classList.toggle('hidden',isOff);
+ document.getElementById('leaveField').classList.toggle('hidden',!isOff);
  if(isOff) document.getElementById('worked').value='0';
+ updateLeavePayLabel();
 }
 function openDay(date){
  syncMonth();editingDate=date||null;document.getElementById('modal').classList.add('open');document.getElementById('modalTitle').textContent=date?'แก้ไขวันทำงาน':'เพิ่มวันทำงาน';
  const d=date?getDays()[date]:{type:'normal_ot',shift:'morning',ot:0,holidayHours:0,worked:'1',note:''};
- document.getElementById('dayDate').value=date||currentMonth+'-01';document.getElementById('dayType').value=d.type;document.getElementById('dayShift').value=d.shift||'morning';document.getElementById('dayOT').value=d.ot||0;document.getElementById('dayHolidayHours').value=d.holidayHours||0;document.getElementById('worked').value=d.worked??'1';document.getElementById('dayNote').value=d.note||'';document.getElementById('dayError').textContent='';updateDayFields();
+ document.getElementById('dayDate').value=date||currentMonth+'-01';document.getElementById('dayType').value=d.type;document.getElementById('dayShift').value=d.shift||'morning';document.getElementById('dayOT').value=d.ot||0;document.getElementById('dayHolidayHours').value=d.holidayHours||0;document.getElementById('worked').value=d.worked??'1';document.getElementById('dayNote').value=d.note||'';document.getElementById('leaveType').value=d.leaveType||'sick_paid';document.getElementById('dayError').textContent='';updateDayFields();
 }
 function closeModal(){document.getElementById('modal').classList.remove('open')}
 function saveDay(){
@@ -914,7 +996,8 @@ function saveDay(){
  if(type==='normal_ot'&&ot<0||type==='holiday'&&hh<0){document.getElementById('dayError').textContent='ชั่วโมงต้องไม่ติดลบ';return}
  if(type==='normal_ot'&&ot>24){document.getElementById('dayError').textContent='ชั่วโมง OT ต้องไม่เกิน 24 ชั่วโมง/วัน';return}
  if(type==='holiday'&&hh>24){document.getElementById('dayError').textContent='ชั่วโมงทำงานวันหยุดต้องไม่เกิน 24 ชั่วโมง/วัน';return}
- state.months[currentMonth].days[date]={type,shift:type==='off'?'':shift,ot:type==='normal_ot'?ot:0,holidayHours:type==='holiday'?hh:0,worked:type==='off'?'0':document.getElementById('worked').value,note:document.getElementById('dayNote').value};
+ const leaveType=type==='off'?document.getElementById('leaveType').value:'';
+ state.months[currentMonth].days[date]={type,shift:type==='off'?'':shift,ot:type==='normal_ot'?ot:0,holidayHours:type==='holiday'?hh:0,worked:type==='off'?'0':document.getElementById('worked').value,leaveType,leavePaid:type==='off'?(!leaveType.endsWith('_unpaid')&&leaveType!=='unpaid'):null,note:document.getElementById('dayNote').value};
  saveAll();closeModal();renderAll();
 }
 function deleteDay(){if(!editingDate){closeModal();return}if(confirm('ลบรายการของวันนี้หรือไม่?')){delete state.months[currentMonth].days[editingDate];saveAll();closeModal();renderAll()}}
@@ -1011,8 +1094,8 @@ async function saveCsvFile(csv,name,type='csv'){
 }
 
 async function exportCSV(){
- const rows=[['วันที่','ประเภท','กะ','OT ชม.','X1 ชม.','X3 ชม.','อาหาร OT','ทำงานจริง','หมายเหตุ']];
- Object.entries(getDays()).sort(([a],[b])=>a.localeCompare(b)).forEach(([date,d])=>{const c=calcDay(d);const typeLabel=d.type==='normal_ot'?'วันทำงานปกติ + OT':d.type==='no_ot'?'วันทำงานปกติ ไม่ทำ OT (NO OT)':d.type==='holiday'?'วันหยุด OT X1, X3':d.type==='off'?'วันหยุด ไม่ได้มาทำงาน':d.type;rows.push([date,typeLabel,d.type==='off'?'':(d.shift==='night'?'กะกลางคืน':'กะเช้า'),c.ot,c.x1,c.x3,c.otFoodEligible?'ได้รับ':'ไม่ได้รับ',d.type==='off'?'ไม่':(d.worked==='1'?'ใช่':'ไม่'),d.note||''])});
+ const rows=[['วันที่','ประเภท','ประเภทการลา','สถานะค่าจ้าง','กะ','OT ชม.','X1 ชม.','X3 ชม.','อาหาร OT','ทำงานจริง','หมายเหตุ']];
+ Object.entries(getDays()).sort(([a],[b])=>a.localeCompare(b)).forEach(([date,d])=>{const c=calcDay(d);const typeLabel=d.type==='normal_ot'?'วันทำงานปกติ + OT':d.type==='no_ot'?'วันทำงานปกติ ไม่ทำ OT (NO OT)':d.type==='holiday'?'วันหยุด OT X1, X3':d.type==='off'?'วันหยุด ไม่ได้มาทำงาน':d.type;rows.push([date,typeLabel,d.leaveType||'',d.type==='off'?(d.leavePaid===false||String(d.leaveType||'').endsWith('_unpaid')||d.leaveType==='unpaid'?'ไม่รับค่าจ้าง':'รับค่าจ้าง'):'',d.type==='off'?'':(d.shift==='night'?'กะกลางคืน':'กะเช้า'),c.ot,c.x1,c.x3,c.otFoodEligible?'ได้รับ':'ไม่ได้รับ',d.type==='off'?'ไม่':(d.worked==='1'?'ใช่':'ไม่'),d.note||''])});
  const cr=monthCalc();
  rows.push([]);
  rows.push(['รวมชั่วโมง OT ของเดือน','','',cr.otTotalH,cr.x1H,cr.x3H,'','','']);
