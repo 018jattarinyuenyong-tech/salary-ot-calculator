@@ -1,7 +1,7 @@
 {
   "name": "Salary & OT Calculator V6.3.1",
   "short_name": "Salary OT V6.3.1",
-  "start_url": "./",
+  "start_url": "./app.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
