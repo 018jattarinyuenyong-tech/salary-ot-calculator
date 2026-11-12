@@ -1,24 +1,22 @@
-Salary & OT Calculator V6.3.0 — Performance & PWA Auto-Update Refinement
+Salary & OT Calculator V6.3.1 — Leave & Attendance Update
 
-Package version: V6.3.0
-Base application: V6.2.9 Theme Refine
+Package version: V6.3.1
+Base application: V6.3.0
 
-V6.3.0 package changes:
-- Updated the package README to identify this release as V6.3.0.
-- Added reduced-motion and touch-device CSS refinements where supported.
-- Updated the PWA service worker cache version to salary-ot-v6-3-0.
-- The service worker removes older salary-ot-* caches and uses network-first navigation handling for HTML pages to help users receive updates.
-
-Important verification note:
-This package has not been confirmed in a live browser/Android runtime. Please back up your current GitHub Pages files and test section navigation, theme switching, calendar, calculations, save/load, and PNG/PDF/print exports after deployment. The V6.3.0 label and service-worker changes alone do not prove that any pre-existing navigation or theme-switch issue is fixed.
+V6.3.1 changes:
+- Added leave subtype selection to the calendar leave workflow in app.html.
+- Any leave type disqualifies the attendance bonus for its half-month period.
+- Attendance bonus is calculated independently: 500 THB for days 1–15 and 500 THB for days 16 through month-end when no leave occurs in that period.
+- Calendar shows the selected leave type; calendar CSV includes leave type and pay status.
+- Updated the visible version label in both index.html and app.html to V6.3.1.
+- Updated the PWA manifest name and short name to V6.3.1.
+- Updated the service-worker cache name and update message to V6.3.1 so browsers can recognize this release.
 
 Deployment:
-1. Back up the current GitHub Pages repository files.
+1. Back up the current GitHub Pages files.
 2. Extract this ZIP and upload the files inside it to the same repository paths (do not upload only the ZIP file).
-3. Commit the changes and reload the site. If an older version remains cached, close and reopen the site or clear the site's cached data.
-4. Verify the app functions listed above before relying on it.
+3. Commit the changes, then reload the website. If an old version remains visible, close and reopen the browser tab or clear the site's cached data.
+4. Test the calendar leave flow, attendance bonus, section navigation, theme switching, save/load, and report exports.
 
-Landing page restoration:
-- index.html is the start page with Open Program, Install Program (when supported), and QR Code.
-- app.html is the calculator application.
-- QR code points to the GitHub Pages root URL.
+Note:
+The version labels and PWA cache identifiers have been aligned to V6.3.1. The leave and attendance changes are present in app.html. This packaging step does not constitute a new live Android/browser runtime test.
